@@ -679,21 +679,6 @@ const SUPABASE_URL = 'https://wjuvmjskqgyeoizdjada.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JKWpG_rsp_XXSd'; // আপনার কপি করা Key
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Local Storage Helpers - Replaced with Supabase Cloud Sync
-// async function saveLocalStorage() {
-//     // লোকাল ব্যাকআপ হিসেবে লোকালস্টোরেজও থাকবে
-//     localStorage.setItem('cleancare_b2b_data', JSON.stringify(appState));
-
-//     // Supabase-এর 'clients' টেবিলে ক্লায়েন্ট ডেটা সিঙ্ক করা
-//     if (appState.clients && appState.clients.length > 0) {
-//         for (let client of appState.clients) {
-//             await supabase.from('clients').upsert([
-//                 { name: client.name, catagory: client.category || '', phone: client.phone || '' }
-//             ], { onConflict: 'name' });
-//         }
-//     }
-//     renderAllViews();
-// }
 
 async function saveLocalStorage() {
     localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
@@ -718,7 +703,7 @@ async function loadLocalStorage() {
             phone: item.phone
         }));
     } else {
-        const localData = localStorage.getItem('cleancare_b2b_data');
+        const localData = localStorage.getItem('hygiclean_b2b_data');
         if (localData) {
             try {
                 appState = JSON.parse(localData);
