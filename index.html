@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HygiCare B2B - Corporate Hygiene Solutions</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -673,22 +674,67 @@
             }
         });
 
-        // Local Storage Helpers
-        function saveLocalStorage() {
-            localStorage.setItem('cleancare_b2b_data', JSON.stringify(appState));
-            renderAllViews();
-        }
+        // Supabase Setup
+const SUPABASE_URL = 'https://wjuvmjskqgyeoizdjada.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JkWPg_rSp_XXSo'; // আপনার Supabase থেকে কপি করা Publishable Key এখানে বসাবেন
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        function loadLocalStorage() {
-            const data = localStorage.getItem('cleancare_b2b_data');
-            if (data) {
-                try {
-                    appState = JSON.parse(data);
-                } catch (e) {
-                    console.error("Failed to parse stored state", e);
-                }
+// Local Storage Helpers - Replaced with Supabase Cloud Sync
+async function saveLocalStorage() {
+    // লোকাল ব্যাকআপ হিসেবে লোকালস্টোরেজও থাকবে
+    localStorage.setItem('cleancare_b2b_data', JSON.stringify(appState));
+
+    // Supabase-এর 'clients' টেবিলে ক্লায়েন্ট ডেটা সিঙ্ক করা
+    if (appState.clients && appState.clients.length > 0) {
+        for (let client of appState.clients) {
+            await supabase.from('clients').upsert([
+                { name: client.name, catagory: client.category || '', phone: client.phone || '' }
+            ], { onConflict: 'name' });
+        }
+    }
+    renderAllViews();
+}
+
+async function loadLocalStorage() {
+    // প্রথমে Supabase ক্লাউড থেকে ডাটা নিয়ে আসার চেষ্টা করবে
+    const { data, error } = await supabase.from('clients').select('*');
+    
+    if (!error && data && data.length > 0) {
+        appState.clients = data.map(item => ({
+            name: item.name,
+            category: item.catagory,
+            phone: item.phone
+        }));
+    } else {
+        // ক্লাউডে না পেলে লোকালস্টোরেজ থেকে ডাটা লোড করবে
+        const localData = localStorage.getItem('cleancare_b2b_data');
+        if (localData) {
+            try {
+                appState = JSON.parse(localData);
+            } catch (e) {
+                console.error('Failed to parse stored state', e);
             }
         }
+    }
+    renderAllViews();
+}
+
+        // // Local Storage Helpers
+        // function saveLocalStorage() {
+        //     localStorage.setItem('cleancare_b2b_data', JSON.stringify(appState));
+        //     renderAllViews();
+        // }
+
+        // function loadLocalStorage() {
+        //     const data = localStorage.getItem('cleancare_b2b_data');
+        //     if (data) {
+        //         try {
+        //             appState = JSON.parse(data);
+        //         } catch (e) {
+        //             console.error("Failed to parse stored state", e);
+        //         }
+        //     }
+        // }
 
         // Navigation Controller
         function switchTab(tabId) {
