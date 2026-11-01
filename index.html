@@ -680,35 +680,60 @@ const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JKWpG_rsp_XXSd'; // আপ
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
+// async function saveLocalStorage() {
+//     localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
+
+//     if (appState.clients && appState.clients.length > 0) {
+//         for (let client of appState.clients) {
+//             await supabaseClient.from('clients').upsert([
+//                 { name: client.name, catagory: client.category || '', phone: client.phone || '' }
+//             ], { onConflict: 'name' });
+//         }
+//     }
+//     renderAllViews();
+// }
+
+// async function loadLocalStorage() {
+//     const { data, error } = await supabaseClient.from('clients').select('*');
+    
+//     if (!error && data && data.length > 0) {
+//         appState.clients = data.map(item => ({
+//             name: item.name,
+//             category: item.catagory,
+//             phone: item.phone
+//         }));
+//     } else {
+//         const localData = localStorage.getItem('hygiclean_b2b_data');
+//         if (localData) {
+//             try {
+//                 appState = JSON.parse(localData);
+//             } catch (e) {
+//                 console.error('Failed to parse stored state', e);
+//             }
+//         }
 async function saveLocalStorage() {
+    // ১. লোকাল ব্যাকআপ
     localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
 
+    // ২. সুপাবেস ক্লাউড সিঙ্ক
     if (appState.clients && appState.clients.length > 0) {
         for (let client of appState.clients) {
-            await supabaseClient.from('clients').upsert([
-                { name: client.name, catagory: client.category || '', phone: client.phone || '' }
-            ], { onConflict: 'name' });
-        }
-    }
-    renderAllViews();
-}
+            // category বা catagory দুটিই চেক করা হচ্ছে যাতেundefined না যায়
+            const clientCategory = client.category || client.catagory || ''; 
+            const clientPhone = client.phone || '';
 
-async function loadLocalStorage() {
-    const { data, error } = await supabaseClient.from('clients').select('*');
-    
-    if (!error && data && data.length > 0) {
-        appState.clients = data.map(item => ({
-            name: item.name,
-            category: item.catagory,
-            phone: item.phone
-        }));
-    } else {
-        const localData = localStorage.getItem('hygiclean_b2b_data');
-        if (localData) {
-            try {
-                appState = JSON.parse(localData);
-            } catch (e) {
-                console.error('Failed to parse stored state', e);
+            const { data, error } = await supabaseClient
+                .from('clients')
+                .upsert([
+                    { 
+                        name: client.name, 
+                        catagory: clientCategory, 
+                        phone: clientPhone 
+                    }
+                ], { onConflict: 'name' });
+
+            if (error) {
+                console.error('Supabase Save Error:', error.message);
             }
         }
     }
@@ -716,28 +741,41 @@ async function loadLocalStorage() {
 }
 
 async function loadLocalStorage() {
-    // প্রথমে Supabase ক্লাউড থেকে ডাটা নিয়ে আসার চেষ্টা করবে
-    const { data, error } = await supabase.from('clients').select('*');
-    
-    if (!error && data && data.length > 0) {
-        appState.clients = data.map(item => ({
-            name: item.name,
-            category: item.catagory,
-            phone: item.phone
-        }));
-    } else {
-        // ক্লাউডে না পেলে লোকালস্টোরেজ থেকে ডাটা লোড করবে
-        const localData = localStorage.getItem('hygiclean_b2b_data');
-        if (localData) {
-            try {
-                appState = JSON.parse(localData);
-            } catch (e) {
-                console.error('Failed to parse stored state', e);
-            }
+    try {
+        const { data, error } = await supabaseClient
+            .from('clients')
+            .select('*');
+
+        if (!error && data && data.length > 0) {
+            appState.clients = data.map(item => ({
+                name: item.name,
+                category: item.catagory || '',
+                phone: item.phone || ''
+            }));
+            renderAllViews();
+            return;
+        } else if (error) {
+            console.error('Supabase Fetch Error:', error.message);
+        }
+    } catch (err) {
+        console.error('Network Error:', err);
+    }
+
+    // ক্লাউড ফেইল করলে LocalStorage থেকে লোড করবে
+    const localData = localStorage.getItem('hygiclean_b2b_data');
+    if (localData) {
+        try {
+            appState = JSON.parse(localData);
+            renderAllViews();
+        } catch (e) {
+            console.error('Failed to parse stored state', e);
         }
     }
-    renderAllViews();
 }
+//         }
+//     }
+//     renderAllViews();
+// }
 
         // // Local Storage Helpers
         // function saveLocalStorage() {
