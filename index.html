@@ -761,7 +761,6 @@ async function loadLocalStorage() {
         console.error('Network Error:', err);
     }
 
-    // Jodi cloud theke data na ase, tobe local storage theke load korbe
     const localData = localStorage.getItem('hygiclean_b2b_data');
     if (localData) {
         try {
@@ -772,6 +771,19 @@ async function loadLocalStorage() {
         }
     }
 }
+
+// প্রতি ৫ সেকেন্ড পর পর অটো ডাটা সিঙ্ক
+setInterval(() => {
+    loadLocalStorage();
+}, 5000);
+
+// রিয়েল-টাইম অটো রিলোড লিসেনার
+const clientsChannel = supabaseClient
+  .channel('public:clients')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'clients' }, payload => {
+    loadLocalStorage();
+  })
+  .subscribe();
 
 
         // Navigation Controller
