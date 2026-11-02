@@ -680,95 +680,49 @@ const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JkWPg_rSp_XXSo'; // আপ
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-// async function saveLocalStorage() {
-//     localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
-
-//     if (appState.clients && appState.clients.length > 0) {
-//         for (let client of appState.clients) {
-//             await supabaseClient.from('clients').upsert([
-//                 { name: client.name, catagory: client.category || '', phone: client.phone || '' }
-//             ], { onConflict: 'name' });
-//         }
-//     }
-//     renderAllViews();
-// }
-
-// async function loadLocalStorage() {
-//     const { data, error } = await supabaseClient.from('clients').select('*');
-    
-//     if (!error && data && data.length > 0) {
-//         appState.clients = data.map(item => ({
-//             name: item.name,
-//             category: item.catagory,
-//             phone: item.phone
-//         }));
-//     } else {
-//         const localData = localStorage.getItem('hygiclean_b2b_data');
-//         if (localData) {
-//             try {
-//                 appState = JSON.parse(localData);
-//             } catch (e) {
-//                 console.error('Failed to parse stored state', e);
-//             }
-//         }
 async function saveLocalStorage() {
     // ১. লোকাল ব্যাকআপ
     localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
 
-    // ২. সুপাবেস ক্লাউড সিঙ্ক
-    if (appState.clients && appState.clients.length > 0) {
-        for (let client of appState.clients) {
-            // category বা catagory দুটিই চেক করা হচ্ছে যাতেundefined না যায়
-            const clientCategory = client.category || client.catagory || ''; 
-            const clientPhone = client.phone || '';
+    // ২. সুপাবেস ক্লাউড সিঙ্ক (পুরো অ্যাপ স্টেট একসাথে)
+    try {
+        const { error } = await supabaseClient
+            .from('app_state')
+            .upsert([{ id: 1, state: appState }], { onConflict: 'id' });
 
-            const { data, error } = await supabaseClient
-                .from('clients')
-                .upsert([
-                    { 
-                        name: client.name, 
-                        catagory: clientCategory, 
-                        phone: clientPhone 
-                    }
-                ], { onConflict: 'name' });
-
-            if (error) {
-                console.error('Supabase Save Error:', error.message);
-            }
-        }
+        if (error) console.error('Supabase State Save Error:', error.message);
+    } catch (e) {
+        console.error('Save Exception:', e);
     }
+
     renderAllViews();
 }
 
 async function loadLocalStorage() {
     try {
         const { data, error } = await supabaseClient
-            .from('clients')
-            .select('*');
+            .from('app_state')
+            .select('state')
+            .eq('id', 1)
+            .single();
 
-        if (!error && data && data.length > 0) {
-            appState.clients = data.map(item => ({
-                name: item.name,
-                category: item.catagory || '',
-                phone: item.phone || ''
-            }));
+        if (!error && data && data.state) {
+            appState = data.state;
+            localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
             renderAllViews();
             return;
-        } else if (error) {
-            console.error('Supabase Fetch Error:', error.message);
         }
     } catch (err) {
-        console.error('Network Error:', err);
+        console.error('Cloud Load Error:', err);
     }
 
+    // ক্লাউড ফেল করলে লোকাল থেকে লোড করবে
     const localData = localStorage.getItem('hygiclean_b2b_data');
     if (localData) {
         try {
             appState = JSON.parse(localData);
             renderAllViews();
-        } catch (e) {
-            console.error('Failed to parse stored state', e);
-        }
+        } catch (e) {}
     }
 }
 
@@ -777,13 +731,6 @@ setInterval(() => {
     loadLocalStorage();
 }, 5000);
 
-// রিয়েল-টাইম অটো রিলোড লিসেনার
-const clientsChannel = supabaseClient
-  .channel('public:clients')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'clients' }, payload => {
-    loadLocalStorage();
-  })
-  .subscribe();
 
 
         // Navigation Controller
