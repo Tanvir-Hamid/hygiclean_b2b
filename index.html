@@ -62,6 +62,37 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
+    <!-- Secure Login Overlay Modal -->
+<div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl w-full max-w-md shadow-2xl">
+        <div class="text-center mb-6">
+            <div class="w-12 h-12 bg-teal-500/10 text-teal-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-teal-500/20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Hygiclean B2B Portal</h2>
+            <p class="text-slate-400 text-sm mt-1">CEO & COO Executive Portal</p>
+        </div>
+        
+        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Username</label>
+                <input type="text" id="login-user" required placeholder="Enter username" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Password</label>
+                <input type="password" id="login-pass" required placeholder="Enter password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
+            </div>
+            <div id="login-error" class="text-red-400 text-xs hidden text-center bg-red-500/10 border border-red-500/20 py-2 rounded-lg">
+                ভুল ইউজারনেম বা পাসওয়ার্ড দেওয়া হয়েছে!
+            </div>
+            
+            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-lg transition duration-200 shadow-lg shadow-teal-600/20">
+                Sign In to Dashboard
+            </button>
+        </form>
+    </div>
+</div>
+
     <!-- SIDEBAR -->
     <aside class="no-print w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-xl z-20 transition-all duration-300">
         <div>
@@ -654,6 +685,50 @@
 
     <!-- APPLICATION LOGIC & STATE MANAGEMENT -->
     <script>
+
+        // CEO & COO-এর জন্য আলাদা আলাদা লগইন ক্রেডেনশিয়াল
+const USERS = [
+    {
+        username: "tanvir",         // CEO (আপনি)
+        password: "ceoPassword123"   // আপনার পাসওয়ার্ড
+    },
+    {
+        username: "himel",   // COO (আপনার পার্টনার)
+        password: "cooPassword456"   // ওনার পাসওয়ার্ড
+    }
+];
+
+// সাইট লোড হওয়ার সাথে সাথে চেক করবে ইউজার লগইন আছে কি না
+window.addEventListener('DOMContentLoaded', () => {
+    const isLoggedIn = sessionStorage.getItem('hygiclean_logged_in');
+    const modal = document.getElementById('auth-modal');
+    
+    if (isLoggedIn === 'true') {
+        if (modal) modal.style.display = 'none';
+    } else {
+        if (modal) modal.style.display = 'flex';
+    }
+});
+
+// লগইন ফর্ম সাবমিট হ্যান্ডলার (লিস্টে থাকা যেকোনো একজনের সাথে মিললেই ঢুকতে দেবে)
+function handleLogin(e) {
+    e.preventDefault();
+    const inputUser = document.getElementById('login-user').value.trim();
+    const inputPass = document.getElementById('login-pass').value.trim();
+    const errorEl = document.getElementById('login-error');
+
+    // ইউজার লিস্টে মিলিয়ে দেখা
+    const validUser = USERS.find(u => u.username === inputUser && u.password === inputPass);
+
+    if (validUser) {
+        sessionStorage.setItem('hygiclean_logged_in', 'true');
+        sessionStorage.setItem('logged_in_user', validUser.username); // কে লগইন করেছে তা ট্র্যাক করার জন্য
+        document.getElementById('auth-modal').style.display = 'none';
+        errorEl.classList.add('hidden');
+    } else {
+        errorEl.classList.remove('hidden');
+    }
+}
         // Data Schema State initialized empty
         let appState = {
             clients: [],
