@@ -761,7 +761,7 @@ async function loadLocalStorage() {
         console.error('Network Error:', err);
     }
 
-    // ক্লাউড ফেইল করলে LocalStorage থেকে লোড করবে
+    // Jodi cloud theke data na ase, tobe local storage theke load korbe
     const localData = localStorage.getItem('hygiclean_b2b_data');
     if (localData) {
         try {
@@ -772,27 +772,7 @@ async function loadLocalStorage() {
         }
     }
 }
-//         }
-//     }
-//     renderAllViews();
-// }
 
-        // // Local Storage Helpers
-        // function saveLocalStorage() {
-        //     localStorage.setItem('cleancare_b2b_data', JSON.stringify(appState));
-        //     renderAllViews();
-        // }
-
-        // function loadLocalStorage() {
-        //     const data = localStorage.getItem('cleancare_b2b_data');
-        //     if (data) {
-        //         try {
-        //             appState = JSON.parse(data);
-        //         } catch (e) {
-        //             console.error("Failed to parse stored state", e);
-        //         }
-        //     }
-        // }
 
         // Navigation Controller
         function switchTab(tabId) {
