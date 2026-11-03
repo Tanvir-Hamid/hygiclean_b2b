@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,57 +45,80 @@
             width: 6px;
             height: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
         @media print {
-            .no-print { display: none !important; }
-            .print-only { display: block !important; }
+            .no-print {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
         }
     </style>
 </head>
+
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
 
     <!-- Secure Login Overlay Modal -->
-<div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl w-full max-w-md shadow-2xl">
-        <div class="text-center mb-6">
-            <div class="w-12 h-12 bg-teal-500/10 text-teal-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-teal-500/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+    <div id="auth-modal"
+        class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl w-full max-w-md shadow-2xl">
+            <div class="text-center mb-6">
+                <div
+                    class="w-12 h-12 bg-teal-500/10 text-teal-400 rounded-xl flex items-center justify-center mx-auto mb-3 border border-teal-500/20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Hygiclean B2B Portal</h2>
+                <p class="text-slate-400 text-sm mt-1">CEO & COO Executive Portal</p>
             </div>
-            <h2 class="text-2xl font-bold text-white">Hygiclean B2B Portal</h2>
-            <p class="text-slate-400 text-sm mt-1">CEO & COO Executive Portal</p>
+
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label
+                        class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Username</label>
+                    <input type="text" id="login-user" required placeholder="Enter username"
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
+                </div>
+                <div>
+                    <label
+                        class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Password</label>
+                    <input type="password" id="login-pass" required placeholder="Enter password"
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
+                </div>
+                <div id="login-error"
+                    class="text-red-400 text-xs hidden text-center bg-red-500/10 border border-red-500/20 py-2 rounded-lg">
+                    ভুল ইউজারনেম বা পাসওয়ার্ড দেওয়া হয়েছে!
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-lg transition duration-200 shadow-lg shadow-teal-600/20">
+                    Sign In to Dashboard
+                </button>
+            </form>
         </div>
-        
-        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-            <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Username</label>
-                <input type="text" id="login-user" required placeholder="Enter username" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Password</label>
-                <input type="password" id="login-pass" required placeholder="Enter password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-500 transition duration-200">
-            </div>
-            <div id="login-error" class="text-red-400 text-xs hidden text-center bg-red-500/10 border border-red-500/20 py-2 rounded-lg">
-                ভুল ইউজারনেম বা পাসওয়ার্ড দেওয়া হয়েছে!
-            </div>
-            
-            <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-lg transition duration-200 shadow-lg shadow-teal-600/20">
-                Sign In to Dashboard
-            </button>
-        </form>
     </div>
-</div>
 
     <!-- SIDEBAR -->
-    <aside class="no-print w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-xl z-20 transition-all duration-300">
+    <aside
+        class="no-print w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-xl z-20 transition-all duration-300">
         <div>
             <!-- Logo & Brand Header -->
             <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-800 bg-slate-950">
@@ -109,27 +133,33 @@
 
             <!-- Navigation Links -->
             <nav class="p-4 space-y-1.5">
-                <button onclick="switchTab('overview')" id="nav-overview" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-600 text-white">
+                <button onclick="switchTab('overview')" id="nav-overview"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-600 text-white">
                     <i class="ph ph-squares-four text-lg"></i>
                     <span>Overview</span>
                 </button>
-                <button onclick="switchTab('clients')" id="nav-clients" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
+                <button onclick="switchTab('clients')" id="nav-clients"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
                     <i class="ph ph-buildings text-lg"></i>
                     <span>Clients</span>
                 </button>
-                <button onclick="switchTab('inventory')" id="nav-inventory" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
+                <button onclick="switchTab('inventory')" id="nav-inventory"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
                     <i class="ph ph-package text-lg"></i>
                     <span>Inventory</span>
                 </button>
-                <button onclick="switchTab('orders')" id="nav-orders" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
+                <button onclick="switchTab('orders')" id="nav-orders"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
                     <i class="ph ph-shopping-cart text-lg"></i>
                     <span>Orders</span>
                 </button>
-                <button onclick="switchTab('invoices')" id="nav-invoices" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
+                <button onclick="switchTab('invoices')" id="nav-invoices"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
                     <i class="ph ph-receipt text-lg"></i>
                     <span>Invoices(Dues)</span>
                 </button>
-                <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
+                <button onclick="switchTab('settings')" id="nav-settings"
+                    class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white text-slate-400">
                     <i class="ph ph-gear text-lg"></i>
                     <span>Settings</span>
                 </button>
@@ -138,10 +168,12 @@
 
         <!-- System Controls Footbar -->
         <div class="p-4 border-t border-slate-800 space-y-2">
-            <button onclick="exportData()" class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors">
+            <button onclick="exportData()"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors">
                 <i class="ph ph-download-simple"></i> Backup Data (JSON)
             </button>
-            <label class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors cursor-pointer">
+            <label
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-md transition-colors cursor-pointer">
                 <i class="ph ph-upload-simple"></i> Restore Backup
                 <input type="file" id="importFile" accept=".json" onchange="importData(event)" class="hidden">
             </label>
@@ -150,12 +182,15 @@
 
     <!-- MAIN CONTENT AREA -->
     <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        
+
         <!-- TOPBAR -->
-        <header class="no-print h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 shadow-sm z-10">
+        <header
+            class="no-print h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 shadow-sm z-10">
             <div class="flex items-center gap-3">
                 <h2 id="page-title" class="text-xl font-bold text-slate-800">Overview Dashboard</h2>
-                <span class="text-xs bg-brand-50 text-brand-700 px-2.5 py-1 rounded-full font-semibold border border-brand-100">Factory Direct Distribution</span>
+                <span
+                    class="text-xs bg-brand-50 text-brand-700 px-2.5 py-1 rounded-full font-semibold border border-brand-100">Factory
+                    Direct Distribution</span>
             </div>
 
             <!-- Header Quick Actions -->
@@ -164,7 +199,8 @@
                     <i class="ph ph-trash text-sm"></i>
                     <span>Clear Sales & Dues</span>
                 </button> -->
-                <button onclick="openModal('modal-order')" class="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-colors">
+                <button onclick="openModal('modal-order')"
+                    class="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-colors">
                     <i class="ph ph-plus-circle text-lg"></i>
                     <span>New Order</span>
                 </button>
@@ -179,65 +215,78 @@
                 <!-- Metrics Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     <!-- Total Sales -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Sales</p>
                             <h3 id="metric-revenue" class="text-2xl font-bold text-slate-900 mt-1">৳0.00</h3>
                             <p class="text-xs text-slate-400 mt-1">From completed & active orders</p>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl shrink-0">
                             <i class="ph ph-currency-bdt"></i>
                         </div>
                     </div>
 
                     <!-- Active B2B Clients -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Active Clients</p>
                             <h3 id="metric-clients" class="text-2xl font-bold text-slate-900 mt-1">0</h3>
                             <p class="text-xs text-slate-400 mt-1">Hospitals, Clinics, Restaurants</p>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl shrink-0">
                             <i class="ph ph-buildings"></i>
                         </div>
                     </div>
 
                     <!-- Pending Accounts Receivable (Dues) -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Outstanding Dues</p>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Outstanding Dues
+                            </p>
                             <h3 id="metric-dues" class="text-2xl font-bold text-amber-600 mt-1">৳0.00</h3>
                             <p class="text-xs text-amber-600 font-medium mt-1">Unpaid corporate balance</p>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl shrink-0">
                             <i class="ph ph-clock-afternoon"></i>
                         </div>
                     </div>
 
                     <!-- Stock Alerts -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Low Stock Items</p>
                             <h3 id="metric-lowstock" class="text-2xl font-bold text-slate-900 mt-1">0</h3>
                             <p class="text-xs text-slate-400 mt-1">Items below reorder limit</p>
                         </div>
-                        <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl shrink-0">
                             <i class="ph ph-warning-circle"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quick Action Bar -->
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-3 items-center justify-between">
+                <div
+                    class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-3 items-center justify-between">
                     <span class="text-sm font-semibold text-slate-700">Quick Actions</span>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="openModal('modal-client')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
+                        <button onclick="openModal('modal-client')"
+                            class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
                             <i class="ph ph-user-plus text-base"></i> Add Client
                         </button>
-                        <button onclick="openModal('modal-product')" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
+                        <button onclick="openModal('modal-product')"
+                            class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
                             <i class="ph ph-plus-square text-base"></i> Add Product
                         </button>
-                        <button onclick="openModal('modal-order')" class="px-3.5 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
+                        <button onclick="openModal('modal-order')"
+                            class="px-3.5 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors">
                             <i class="ph ph-shopping-bag-open text-base"></i> Log Supply Order
                         </button>
                     </div>
@@ -245,16 +294,22 @@
 
                 <!-- Recent Activity & Empty State Banner -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between min-h-[300px]">
+                    <div
+                        class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between min-h-[300px]">
                         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                             <h4 class="font-bold text-slate-800">Recent Orders</h4>
-                            <button onclick="switchTab('orders')" class="text-xs font-semibold text-brand-600 hover:underline">View All</button>
+                            <button onclick="switchTab('orders')"
+                                class="text-xs font-semibold text-brand-600 hover:underline">View All</button>
                         </div>
-                        <div id="overview-orders-container" class="py-12 flex flex-col items-center justify-center text-center">
+                        <div id="overview-orders-container"
+                            class="py-12 flex flex-col items-center justify-center text-center">
                             <i class="ph ph-clipboard-text text-5xl text-slate-300 mb-3"></i>
                             <p class="text-sm font-medium text-slate-600">No orders logged yet</p>
-                            <p class="text-xs text-slate-400 mt-1 max-w-xs">Start recording supply orders for hospitals, clinics, or restaurants to populate analytics.</p>
-                            <button onclick="openModal('modal-order')" class="mt-4 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-medium shadow-sm transition-colors">Create First Order</button>
+                            <p class="text-xs text-slate-400 mt-1 max-w-xs">Start recording supply orders for hospitals,
+                                clinics, or restaurants to populate analytics.</p>
+                            <button onclick="openModal('modal-order')"
+                                class="mt-4 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-medium shadow-sm transition-colors">Create
+                                First Order</button>
                         </div>
                     </div>
 
@@ -263,7 +318,8 @@
                         <h4 class="font-bold text-slate-800 border-b border-slate-100 pb-4">Client Categories</h4>
                         <div id="overview-clients-chart" class="flex-1 flex flex-col items-center justify-center py-8">
                             <i class="ph ph-chart-pie-slice text-5xl text-slate-300 mb-3"></i>
-                            <p class="text-xs text-slate-400 text-center">Add clients to see distribution by sector (Hospitals, Clinics, Restaurants).</p>
+                            <p class="text-xs text-slate-400 text-center">Add clients to see distribution by sector
+                                (Hospitals, Clinics, Restaurants).</p>
                         </div>
                     </div>
                 </div>
@@ -271,12 +327,16 @@
 
             <!-- 2. CLIENT MANAGEMENT TAB -->
             <section id="tab-clients" class="tab-content hidden space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div class="relative w-full sm:w-80">
                         <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-lg"></i>
-                        <input type="text" id="search-client" oninput="renderClients()" placeholder="Search clients, phone, category..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <input type="text" id="search-client" oninput="renderClients()"
+                            placeholder="Search clients, phone, category..."
+                            class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
-                    <button onclick="openModal('modal-client')" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                    <button onclick="openModal('modal-client')"
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
                         <i class="ph ph-plus-circle text-lg"></i> Add New Client
                     </button>
                 </div>
@@ -286,7 +346,8 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <tr
+                                    class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     <th class="p-4">Company & Category</th>
                                     <th class="p-4">Contact Person</th>
                                     <th class="p-4">Contact Info</th>
@@ -303,19 +364,24 @@
                     <div id="clients-empty-state" class="py-12 flex flex-col items-center justify-center text-center">
                         <i class="ph ph-buildings text-5xl text-slate-300 mb-2"></i>
                         <p class="text-slate-600 font-medium text-sm">No B2B clients added yet</p>
-                        <p class="text-slate-400 text-xs mt-1">Add hospitals, clinics, or restaurants to start issuing invoices.</p>
+                        <p class="text-slate-400 text-xs mt-1">Add hospitals, clinics, or restaurants to start issuing
+                            invoices.</p>
                     </div>
                 </div>
             </section>
 
             <!-- 3. INVENTORY & PRODUCT MANAGEMENT TAB -->
             <section id="tab-inventory" class="tab-content hidden space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div class="relative w-full sm:w-80">
                         <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-lg"></i>
-                        <input type="text" id="search-product" oninput="renderInventory()" placeholder="Search products or category..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <input type="text" id="search-product" oninput="renderInventory()"
+                            placeholder="Search products or category..."
+                            class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
                     </div>
-                    <button onclick="openModal('modal-product')" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                    <button onclick="openModal('modal-product')"
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
                         <i class="ph ph-plus-circle text-lg"></i> Add New Hygiene Product
                     </button>
                 </div>
@@ -325,7 +391,8 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <tr
+                                    class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     <th class="p-4">Product Name & Category</th>
                                     <th class="p-4">Factory Cost</th>
                                     <th class="p-4">Supply Price</th>
@@ -343,16 +410,19 @@
                     <div id="inventory-empty-state" class="py-12 flex flex-col items-center justify-center text-center">
                         <i class="ph ph-package text-5xl text-slate-300 mb-2"></i>
                         <p class="text-slate-600 font-medium text-sm">No products in inventory</p>
-                        <p class="text-slate-400 text-xs mt-1">Add cleaning chemical formulations, hand soaps, or tissues to manage stock.</p>
+                        <p class="text-slate-400 text-xs mt-1">Add cleaning chemical formulations, hand soaps, or
+                            tissues to manage stock.</p>
                     </div>
                 </div>
             </section>
 
             <!-- 4. ORDERS & DELIVERY TRACKING TAB -->
             <section id="tab-orders" class="tab-content hidden space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div class="flex flex-wrap items-center gap-3">
-                        <select id="filter-order-status" onchange="renderOrders()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <select id="filter-order-status" onchange="renderOrders()"
+                            class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <option value="All">All Statuses</option>
                             <option value="Pending">Pending / অপেক্ষমাণ</option>
                             <option value="Shipped">Shipped / ডেলিভারিতে আছে</option>
@@ -360,7 +430,8 @@
                             <option value="Cancelled">Cancelled / বাতিল</option>
                         </select>
                     </div>
-                    <button onclick="openModal('modal-order')" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                    <button onclick="openModal('modal-order')"
+                        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
                         <i class="ph ph-plus-circle text-lg"></i> Create Supply Order / নতুন অর্ডার
                     </button>
                 </div>
@@ -370,7 +441,8 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <tr
+                                    class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     <th class="p-4">Order ID & Date</th>
                                     <th class="p-4">Client</th>
                                     <th class="p-4">Items / Total</th>
@@ -387,7 +459,8 @@
                     <div id="orders-empty-state" class="py-12 flex flex-col items-center justify-center text-center">
                         <i class="ph ph-shopping-bag text-5xl text-slate-300 mb-2"></i>
                         <p class="text-slate-600 font-medium text-sm">No supply orders registered</p>
-                        <p class="text-slate-400 text-xs mt-1">Create an order for a client to initiate delivery and invoicing.</p>
+                        <p class="text-slate-400 text-xs mt-1">Create an order for a client to initiate delivery and
+                            invoicing.</p>
                     </div>
                 </div>
             </section>
@@ -397,7 +470,8 @@
                 <!-- Receivable Summary Header -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Invoiced Amount</p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Invoiced Amount
+                        </p>
                         <h4 id="inv-total-amount" class="text-2xl font-bold text-slate-900 mt-1">৳0.00</h4>
                     </div>
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
@@ -405,7 +479,8 @@
                         <h4 id="inv-collected-amount" class="text-2xl font-bold text-teal-600 mt-1">৳0.00</h4>
                     </div>
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pending Balance / বকেয়া</p>
+                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pending Balance / বকেয়া
+                        </p>
                         <h4 id="inv-pending-amount" class="text-2xl font-bold text-amber-600 mt-1">৳0.00</h4>
                     </div>
                 </div>
@@ -414,14 +489,16 @@
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="p-4 border-b border-slate-100 flex justify-between items-center flex-wrap gap-3">
                         <h4 class="font-bold text-slate-800">Corporate Invoices Log</h4>
-                        <button onclick="confirmClearSalesData()" class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold px-3 py-1.5 rounded-lg border border-rose-200 transition-colors flex items-center gap-1.5">
+                        <button onclick="confirmClearSalesData()"
+                            class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold px-3 py-1.5 rounded-lg border border-rose-200 transition-colors flex items-center gap-1.5">
                             <i class="ph ph-trash text-sm"></i> Clear All Sales & Dues / সকল হিসাব মুছে ফেলুন
                         </button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <tr
+                                    class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     <th class="p-4">Invoice #</th>
                                     <th class="p-4">Client Name</th>
                                     <th class="p-4">Issue Date</th>
@@ -439,7 +516,8 @@
                     <div id="invoices-empty-state" class="py-12 flex flex-col items-center justify-center text-center">
                         <i class="ph ph-receipt text-5xl text-slate-300 mb-2"></i>
                         <p class="text-slate-600 font-medium text-sm">No corporate invoices available</p>
-                        <p class="text-slate-400 text-xs mt-1">Orders generated in the system automatically produce trackable invoices.</p>
+                        <p class="text-slate-400 text-xs mt-1">Orders generated in the system automatically produce
+                            trackable invoices.</p>
                     </div>
                 </div>
             </section>
@@ -449,7 +527,8 @@
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
                     <div>
                         <h3 class="text-lg font-bold text-slate-900">Data Management & Reset Controls</h3>
-                        <p class="text-sm text-slate-500 mt-1">এখানে আপনি সেলস ডাটা, বাকি হিসাব অথবা সম্পূর্ণ সিস্টেম ডাটা মুছে নতুন করে শুরু করতে পারেন।</p>
+                        <p class="text-sm text-slate-500 mt-1">এখানে আপনি সেলস ডাটা, বাকি হিসাব অথবা সম্পূর্ণ সিস্টেম
+                            ডাটা মুছে নতুন করে শুরু করতে পারেন।</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
@@ -459,8 +538,10 @@
                                 <i class="ph ph-receipt text-2xl"></i>
                                 <h4 class="font-bold">Reset Sales & Dues / সেলস ও বাকি রিসেট</h4>
                             </div>
-                            <p class="text-xs text-slate-600">শুধুমাত্র সকল অর্ডার, ইনভয়েস এবং বাকি হিসাব মুছে ফেলা হবে। ক্লায়েন্ট ও প্রোডাক্ট স্টক অপরিবর্তিত থাকবে।</p>
-                            <button onclick="confirmClearSalesData()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-2">
+                            <p class="text-xs text-slate-600">শুধুমাত্র সকল অর্ডার, ইনভয়েস এবং বাকি হিসাব মুছে ফেলা হবে।
+                                ক্লায়েন্ট ও প্রোডাক্ট স্টক অপরিবর্তিত থাকবে।</p>
+                            <button onclick="confirmClearSalesData()"
+                                class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-2">
                                 <i class="ph ph-trash"></i> Clear Sales & Dues History
                             </button>
                         </div>
@@ -471,25 +552,30 @@
                                 <i class="ph ph-warning-octagon text-2xl"></i>
                                 <h4 class="font-bold">Factory Reset / সম্পূর্ণ ডাটা রিসেট</h4>
                             </div>
-                            <p class="text-xs text-slate-600">সমস্ত ক্লায়েন্ট, ইনভেন্টরি প্রোডাক্ট, অর্ডার এবং ইনভয়েস স্থায়ীভাবে মুছে ফেলা হবে।</p>
-                            <button onclick="confirmResetAllData()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-2">
+                            <p class="text-xs text-slate-600">সমস্ত ক্লায়েন্ট, ইনভেন্টরি প্রোডাক্ট, অর্ডার এবং ইনভয়েস
+                                স্থায়ীভাবে মুছে ফেলা হবে।</p>
+                            <button onclick="confirmResetAllData()"
+                                class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-2">
                                 <i class="ph ph-trash-simple"></i> Clear All System Data (0% Data)
                             </button>
                         </div>
-                        <button onclick="confirmClearSalesData()" class="flex items-center gap-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold px-3 py-2 rounded-lg border border-rose-200 transition-colors">
-                    <i class="ph ph-trash text-sm"></i>
-                    <span>Clear Sales & Dues</span>
-                </button>
+                        <button onclick="confirmClearSalesData()"
+                            class="flex items-center gap-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold px-3 py-2 rounded-lg border border-rose-200 transition-colors">
+                            <i class="ph ph-trash text-sm"></i>
+                            <span>Clear Sales & Dues</span>
+                        </button>
                     </div>
 
                     <!-- Backup & Restore Section -->
                     <div class="pt-6 border-t border-slate-100 space-y-4">
                         <h4 class="font-bold text-slate-800">Backup & Restore / ডাটা ব্যাকআপ</h4>
                         <div class="flex flex-wrap gap-4">
-                            <button onclick="exportData()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition-colors">
+                            <button onclick="exportData()"
+                                class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition-colors">
                                 <i class="ph ph-download-simple text-base"></i> Download Full Backup (JSON)
                             </button>
-                            <label class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg flex items-center gap-2 cursor-pointer transition-colors">
+                            <label
+                                class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg flex items-center gap-2 cursor-pointer transition-colors">
                                 <i class="ph ph-upload-simple text-base"></i> Upload Backup File
                                 <input type="file" accept=".json" onchange="importData(event)" class="hidden">
                             </label>
@@ -502,21 +588,27 @@
     </div>
 
     <!-- MODAL: ADD / EDIT CLIENT -->
-    <div id="modal-client" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="modal-client"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800">Add New B2B Client / নতুন ক্লায়েন্ট</h3>
-                <button onclick="closeModal('modal-client')" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closeModal('modal-client')" class="text-slate-400 hover:text-slate-600"><i
+                        class="ph ph-x text-xl"></i></button>
             </div>
             <form onsubmit="saveClient(event)" class="p-6 space-y-4 overflow-y-auto">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Company / Institution Name *</label>
-                    <input type="text" id="client-name" required placeholder="e.g. Popular Diagnostic Center or Square Hospital" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Company / Institution Name
+                        *</label>
+                    <input type="text" id="client-name" required
+                        placeholder="e.g. Popular Diagnostic Center or Square Hospital"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Category *</label>
-                        <select id="client-category" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <select id="client-category" required
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                             <option value="Hospital">Hospital / হাসপাতাল</option>
                             <option value="Clinic">Clinic / ক্লিনিক</option>
                             <option value="Restaurant">Restaurant / রেস্টুরেন্ট</option>
@@ -525,51 +617,64 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Contact Person *</label>
-                        <input type="text" id="client-person" required placeholder="e.g. Procurement Manager" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Contact Person
+                            *</label>
+                        <input type="text" id="client-person" required placeholder="e.g. Procurement Manager"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Phone Number *</label>
-                        <input type="text" id="client-phone" required placeholder="017XXXXXXXX" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <input type="text" id="client-phone" required placeholder="017XXXXXXXX"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Email Address</label>
-                        <input type="email" id="client-email" placeholder="info@institution.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <input type="email" id="client-email" placeholder="info@institution.com"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Delivery Address *</label>
-                    <textarea id="client-address" required rows="2" placeholder="Full street address, building level" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none"></textarea>
+                    <textarea id="client-address" required rows="2" placeholder="Full street address, building level"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none"></textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Credit Limit (৳)</label>
-                    <input type="number" id="client-credit" placeholder="e.g. 50000" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <input type="number" id="client-credit" placeholder="e.g. 50000"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                 </div>
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-client')" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Save Client</button>
+                    <button type="button" onclick="closeModal('modal-client')"
+                        class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Save
+                        Client</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: ADD PRODUCT -->
-    <div id="modal-product" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="modal-product"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800">Add Inventory Product / নতুন পণ্য</h3>
-                <button onclick="closeModal('modal-product')" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closeModal('modal-product')" class="text-slate-400 hover:text-slate-600"><i
+                        class="ph ph-x text-xl"></i></button>
             </div>
             <form onsubmit="saveProduct(event)" class="p-6 space-y-4 overflow-y-auto">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Product Name *</label>
-                    <input type="text" id="product-name" required placeholder="e.g. Hospital Grade Floor Cleaner (5L)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <input type="text" id="product-name" required placeholder="e.g. Hospital Grade Floor Cleaner (5L)"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Category *</label>
-                    <select id="product-category" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <select id="product-category" required
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                         <option value="Disinfectants">Disinfectants & Sanitizers</option>
                         <option value="Hand Hygiene">Hand Soaps & Soaps</option>
                         <option value="Surface Cleaners">Surface & Kitchen Cleaners</option>
@@ -579,70 +684,91 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Factory Cost Price (৳) *</label>
-                        <input type="number" step="0.01" id="product-cost" required placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Factory Cost Price (৳)
+                            *</label>
+                        <input type="number" step="0.01" id="product-cost" required placeholder="0.00"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Wholesale Supply Price (৳) *</label>
-                        <input type="number" step="0.01" id="product-price" required placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Wholesale Supply Price
+                            (৳) *</label>
+                        <input type="number" step="0.01" id="product-price" required placeholder="0.00"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Initial Stock Qty *</label>
-                        <input type="number" id="product-stock" required placeholder="100" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Initial Stock Qty
+                            *</label>
+                        <input type="number" id="product-stock" required placeholder="100"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Reorder Threshold *</label>
-                        <input type="number" id="product-minstock" required placeholder="10" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Reorder Threshold
+                            *</label>
+                        <input type="number" id="product-minstock" required placeholder="10"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-product')" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Save Product</button>
+                    <button type="button" onclick="closeModal('modal-product')"
+                        class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Save
+                        Product</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: LOG ORDER -->
-    <div id="modal-order" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="modal-order"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800">Log Supply Order / নতুন অর্ডার নিবন্ধন</h3>
-                <button onclick="closeModal('modal-order')" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closeModal('modal-order')" class="text-slate-400 hover:text-slate-600"><i
+                        class="ph ph-x text-xl"></i></button>
             </div>
             <form onsubmit="saveOrder(event)" class="p-6 space-y-4 overflow-y-auto">
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Select Client *</label>
-                    <select id="order-client" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <select id="order-client" required
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                         <!-- Dynamic Options -->
                     </select>
                 </div>
                 <div class="grid grid-cols-3 gap-3">
                     <div class="col-span-2">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Select Product *</label>
-                        <select id="order-product" required onchange="updateOrderPriceCalc()" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Select Product
+                            *</label>
+                        <select id="order-product" required onchange="updateOrderPriceCalc()"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                             <!-- Dynamic Options -->
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Quantity *</label>
-                        <input type="number" id="order-qty" required min="1" value="1" oninput="updateOrderPriceCalc()" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <input type="number" id="order-qty" required min="1" value="1" oninput="updateOrderPriceCalc()"
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                 </div>
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex justify-between items-center text-sm">
+                <div
+                    class="bg-slate-50 p-3 rounded-lg border border-slate-200 flex justify-between items-center text-sm">
                     <span class="text-slate-600 font-medium">Calculated Total:</span>
                     <span id="order-total-preview" class="font-bold text-brand-700 text-base">৳0.00</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Promised Delivery Date *</label>
-                        <input type="date" id="order-date" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Promised Delivery Date
+                            *</label>
+                        <input type="date" id="order-date" required
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Payment Terms *</label>
-                        <select id="order-terms" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                        <select id="order-terms" required
+                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                             <option value="Cash on Delivery">Cash on Delivery (COD)</option>
                             <option value="15-Day Credit">15-Day Corporate Credit</option>
                             <option value="30-Day Credit">30-Day Corporate Credit</option>
@@ -650,29 +776,39 @@
                     </div>
                 </div>
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-order')" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Confirm Order</button>
+                    <button type="button" onclick="closeModal('modal-order')"
+                        class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold shadow-sm">Confirm
+                        Order</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: RECORD PAYMENT -->
-    <div id="modal-payment" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="modal-payment"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <h3 class="font-bold text-slate-800">Record Payment / জমা গ্রহণ</h3>
-                <button onclick="closeModal('modal-payment')" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
+                <button onclick="closeModal('modal-payment')" class="text-slate-400 hover:text-slate-600"><i
+                        class="ph ph-x text-xl"></i></button>
             </div>
             <form onsubmit="savePayment(event)" class="p-6 space-y-4">
                 <input type="hidden" id="payment-invoice-id">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Amount Received (৳) *</label>
-                    <input type="number" step="0.01" id="payment-amount" required placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Amount Received (৳)
+                        *</label>
+                    <input type="number" step="0.01" id="payment-amount" required placeholder="0.00"
+                        class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                 </div>
                 <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('modal-payment')" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-semibold shadow-sm">Record Payment</button>
+                    <button type="button" onclick="closeModal('modal-payment')"
+                        class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-semibold shadow-sm">Record
+                        Payment</button>
                 </div>
             </form>
         </div>
@@ -687,48 +823,48 @@
     <script>
 
         // CEO & COO-এর জন্য আলাদা আলাদা লগইন ক্রেডেনশিয়াল
-const USERS = [
-    {
-        username: "tanvir",         // CEO (আপনি)
-        password: "ceoPassword123"   // আপনার পাসওয়ার্ড
-    },
-    {
-        username: "himel",   // COO (আপনার পার্টনার)
-        password: "cooPassword456"   // ওনার পাসওয়ার্ড
-    }
-];
+        const USERS = [
+            {
+                username: "tanvir",         // CEO (আপনি)
+                password: "ceoPassword123"   // আপনার পাসওয়ার্ড
+            },
+            {
+                username: "himel",   // COO (আপনার পার্টনার)
+                password: "cooPassword456"   // ওনার পাসওয়ার্ড
+            }
+        ];
 
-// সাইট লোড হওয়ার সাথে সাথে চেক করবে ইউজার লগইন আছে কি না
-window.addEventListener('DOMContentLoaded', () => {
-    const isLoggedIn = sessionStorage.getItem('hygiclean_logged_in');
-    const modal = document.getElementById('auth-modal');
-    
-    if (isLoggedIn === 'true') {
-        if (modal) modal.style.display = 'none';
-    } else {
-        if (modal) modal.style.display = 'flex';
-    }
-});
+        // সাইট লোড হওয়ার সাথে সাথে চেক করবে ইউজার লগইন আছে কি না
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = sessionStorage.getItem('hygiclean_logged_in');
+            const modal = document.getElementById('auth-modal');
 
-// লগইন ফর্ম সাবমিট হ্যান্ডলার (লিস্টে থাকা যেকোনো একজনের সাথে মিললেই ঢুকতে দেবে)
-function handleLogin(e) {
-    e.preventDefault();
-    const inputUser = document.getElementById('login-user').value.trim();
-    const inputPass = document.getElementById('login-pass').value.trim();
-    const errorEl = document.getElementById('login-error');
+            if (isLoggedIn === 'true') {
+                if (modal) modal.style.display = 'none';
+            } else {
+                if (modal) modal.style.display = 'flex';
+            }
+        });
 
-    // ইউজার লিস্টে মিলিয়ে দেখা
-    const validUser = USERS.find(u => u.username === inputUser && u.password === inputPass);
+        // লগইন ফর্ম সাবমিট হ্যান্ডলার (লিস্টে থাকা যেকোনো একজনের সাথে মিললেই ঢুকতে দেবে)
+        function handleLogin(e) {
+            e.preventDefault();
+            const inputUser = document.getElementById('login-user').value.trim();
+            const inputPass = document.getElementById('login-pass').value.trim();
+            const errorEl = document.getElementById('login-error');
 
-    if (validUser) {
-        sessionStorage.setItem('hygiclean_logged_in', 'true');
-        sessionStorage.setItem('logged_in_user', validUser.username); // কে লগইন করেছে তা ট্র্যাক করার জন্য
-        document.getElementById('auth-modal').style.display = 'none';
-        errorEl.classList.add('hidden');
-    } else {
-        errorEl.classList.remove('hidden');
-    }
-}
+            // ইউজার লিস্টে মিলিয়ে দেখা
+            const validUser = USERS.find(u => u.username === inputUser && u.password === inputPass);
+
+            if (validUser) {
+                sessionStorage.setItem('hygiclean_logged_in', 'true');
+                sessionStorage.setItem('logged_in_user', validUser.username); // কে লগইন করেছে তা ট্র্যাক করার জন্য
+                document.getElementById('auth-modal').style.display = 'none';
+                errorEl.classList.add('hidden');
+            } else {
+                errorEl.classList.remove('hidden');
+            }
+        }
         // Data Schema State initialized empty
         let appState = {
             clients: [],
@@ -741,7 +877,7 @@ function handleLogin(e) {
         window.addEventListener('DOMContentLoaded', () => {
             loadLocalStorage();
             renderAllViews();
-            
+
             // Set default date picker to today
             const today = new Date().toISOString().split('T')[0];
             if (document.getElementById('order-date')) {
@@ -750,61 +886,61 @@ function handleLogin(e) {
         });
 
         // Supabase Setup (Fixed variable name to avoid conflict)
-const SUPABASE_URL = 'https://wjuvmjskqgyeoizdjada.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JkWPg_rSp_XXSo'; // আপনার কপি করা Key
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const SUPABASE_URL = 'https://wjuvmjskqgyeoizdjada.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_ynzGzi8v4Ds9f3c70JkWPg_rSp_XXSo'; // আপনার কপি করা Key
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-async function saveLocalStorage() {
-    // ১. লোকাল ব্যাকআপ
-    localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
-
-    // ২. সুপাবেস ক্লাউড সিঙ্ক (পুরো অ্যাপ স্টেট একসাথে)
-    try {
-        const { error } = await supabaseClient
-            .from('app_state')
-            .upsert([{ id: 1, state: appState }], { onConflict: 'id' });
-
-        if (error) console.error('Supabase State Save Error:', error.message);
-    } catch (e) {
-        console.error('Save Exception:', e);
-    }
-
-    renderAllViews();
-}
-
-async function loadLocalStorage() {
-    try {
-        const { data, error } = await supabaseClient
-            .from('app_state')
-            .select('state')
-            .eq('id', 1)
-            .maybeSingle();
-
-        if (!error && data && data.state) {
-            appState = data.state;
+        async function saveLocalStorage() {
+            // ১. লোকাল ব্যাকআপ
             localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
+
+            // ২. সুপাবেস ক্লাউড সিঙ্ক (পুরো অ্যাপ স্টেট একসাথে)
+            try {
+                const { error } = await supabaseClient
+                    .from('app_state')
+                    .upsert([{ id: 1, state: appState }], { onConflict: 'id' });
+
+                if (error) console.error('Supabase State Save Error:', error.message);
+            } catch (e) {
+                console.error('Save Exception:', e);
+            }
+
             renderAllViews();
-            return;
         }
-    } catch (err) {
-        console.error('Cloud Load Error:', err);
-    }
 
-    // ক্লাউড ফেল করলে লোকাল থেকে লোড করবে
-    const localData = localStorage.getItem('hygiclean_b2b_data');
-    if (localData) {
-        try {
-            appState = JSON.parse(localData);
-            renderAllViews();
-        } catch (e) {}
-    }
-}
+        async function loadLocalStorage() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('app_state')
+                    .select('state')
+                    .eq('id', 1)
+                    .maybeSingle();
 
-// প্রতি ৫ সেকেন্ড পর পর অটো ডাটা সিঙ্ক
-setInterval(() => {
-    loadLocalStorage();
-}, 5000);
+                if (!error && data && data.state) {
+                    appState = data.state;
+                    localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
+                    renderAllViews();
+                    return;
+                }
+            } catch (err) {
+                console.error('Cloud Load Error:', err);
+            }
+
+            // ক্লাউড ফেল করলে লোকাল থেকে লোড করবে
+            const localData = localStorage.getItem('hygiclean_b2b_data');
+            if (localData) {
+                try {
+                    appState = JSON.parse(localData);
+                    renderAllViews();
+                } catch (e) { }
+            }
+        }
+
+        // প্রতি ৫ সেকেন্ড পর পর অটো ডাটা সিঙ্ক
+        setInterval(() => {
+            loadLocalStorage();
+        }, 5000);
 
 
 
@@ -872,9 +1008,9 @@ setInterval(() => {
             const lowStockCount = appState.products
                 .filter(p => p.stock <= p.minStock).length;
 
-            document.getElementById('metric-revenue').innerText = `৳${totalRevenue.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('metric-revenue').innerText = `৳${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
             document.getElementById('metric-clients').innerText = appState.clients.length;
-            document.getElementById('metric-dues').innerText = `৳${totalDues.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('metric-dues').innerText = `৳${totalDues.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
             document.getElementById('metric-lowstock').innerText = lowStockCount;
 
             // Overview Orders Mini Table
@@ -901,13 +1037,13 @@ setInterval(() => {
             if (appState.clients.length > 0) {
                 const categories = {};
                 appState.clients.forEach(c => categories[c.category] = (categories[c.category] || 0) + 1);
-                
+
                 chartContainer.innerHTML = `
                     <div class="w-full space-y-3">
                         ${Object.keys(categories).map(cat => {
-                            const count = categories[cat];
-                            const pct = Math.round((count / appState.clients.length) * 100);
-                            return `
+                    const count = categories[cat];
+                    const pct = Math.round((count / appState.clients.length) * 100);
+                    return `
                                 <div>
                                     <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
                                         <span>${cat}</span>
@@ -918,7 +1054,7 @@ setInterval(() => {
                                     </div>
                                 </div>
                             `;
-                        }).join('')}
+                }).join('')}
                     </div>
                 `;
             }
@@ -949,8 +1085,8 @@ setInterval(() => {
             const emptyState = document.getElementById('clients-empty-state');
             const searchQuery = (document.getElementById('search-client')?.value || '').toLowerCase();
 
-            const filtered = appState.clients.filter(c => 
-                c.name.toLowerCase().includes(searchQuery) || 
+            const filtered = appState.clients.filter(c =>
+                c.name.toLowerCase().includes(searchQuery) ||
                 c.category.toLowerCase().includes(searchQuery) ||
                 c.phone.includes(searchQuery)
             );
@@ -1013,8 +1149,8 @@ setInterval(() => {
             const emptyState = document.getElementById('inventory-empty-state');
             const searchQuery = (document.getElementById('search-product')?.value || '').toLowerCase();
 
-            const filtered = appState.products.filter(p => 
-                p.name.toLowerCase().includes(searchQuery) || 
+            const filtered = appState.products.filter(p =>
+                p.name.toLowerCase().includes(searchQuery) ||
                 p.category.toLowerCase().includes(searchQuery)
             );
 
@@ -1128,8 +1264,8 @@ setInterval(() => {
 
             // Reduce stock
             product.stock = Math.max(0, product.stock - qty);
-
-            const orderId = 'ORD-' + Date.now().toString().slice(-4);
+            const nextSerial = (appState.orders.length + 1).toString().padStart(4, '0');
+            const orderId = 'ORD-' + nextSerial;
             const totalPrice = product.price * qty;
 
             const newOrder = {
@@ -1244,9 +1380,9 @@ setInterval(() => {
             const totalCollected = appState.invoices.reduce((sum, inv) => sum + inv.paidAmount, 0);
             const totalPending = totalInvoiced - totalCollected;
 
-            document.getElementById('inv-total-amount').innerText = `৳${totalInvoiced.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-            document.getElementById('inv-collected-amount').innerText = `৳${totalCollected.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-            document.getElementById('inv-pending-amount').innerText = `৳${totalPending.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            document.getElementById('inv-total-amount').innerText = `৳${totalInvoiced.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('inv-collected-amount').innerText = `৳${totalCollected.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('inv-pending-amount').innerText = `৳${totalPending.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
 
             if (appState.invoices.length === 0) {
                 tableBody.innerHTML = '';
@@ -1452,7 +1588,7 @@ setInterval(() => {
 
         function importData(event) {
             const fileReader = new FileReader();
-            fileReader.onload = function(e) {
+            fileReader.onload = function (e) {
                 try {
                     const parsed = JSON.parse(e.target.result);
                     if (parsed && typeof parsed === 'object') {
@@ -1470,4 +1606,5 @@ setInterval(() => {
         }
     </script>
 </body>
+
 </html>
