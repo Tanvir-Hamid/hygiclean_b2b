@@ -491,7 +491,7 @@
                         <h4 class="font-bold text-slate-800">Corporate Invoices Log</h4>
                         <button onclick="confirmClearSalesData()"
                             class="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold px-3 py-1.5 rounded-lg border border-rose-200 transition-colors flex items-center gap-1.5">
-                            <i class="ph ph-trash text-sm"></i> Clear All Sales & Dues / সকল হিসাব মুছে ফেলুন
+                            <i class="ph ph-trash text-sm"></i> Clear All Sales & Dues
                         </button>
                     </div>
                     <div class="overflow-x-auto">
@@ -726,7 +726,7 @@
         class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-slate-800">Log Supply Order / নতুন অর্ডার নিবন্ধন</h3>
+                <h3 class="font-bold text-slate-800">Log Supply Order</h3>
                 <button onclick="closeModal('modal-order')" class="text-slate-400 hover:text-slate-600"><i
                         class="ph ph-x text-xl"></i></button>
             </div>
@@ -770,8 +770,8 @@
                         <select id="order-terms" required
                             class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 outline-none">
                             <option value="Cash on Delivery">Cash on Delivery (COD)</option>
-                            <option value="15-Day Credit">15-Day Corporate Credit</option>
-                            <option value="30-Day Credit">30-Day Corporate Credit</option>
+                            <option value="15-Day Credit">03-Day Corporate Credit</option>
+                            <option value="30-Day Credit">07-Day Corporate Credit</option>
                         </select>
                     </div>
                 </div>
@@ -791,7 +791,7 @@
         class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-slate-800">Record Payment / জমা গ্রহণ</h3>
+                <h3 class="font-bold text-slate-800">Record Payment</h3>
                 <button onclick="closeModal('modal-payment')" class="text-slate-400 hover:text-slate-600"><i
                         class="ph ph-x text-xl"></i></button>
             </div>
@@ -823,6 +823,7 @@
     <script>
 
         // CEO & COO-এর জন্য আলাদা আলাদা লগইন ক্রেডেনশিয়াল
+        // Admin & Employee access with username & password
         const USERS = [
             {
                 username: "tanvir",         // CEO (আপনি)
@@ -831,7 +832,10 @@
             {
                 username: "himel",   // COO (আপনার পার্টনার)
                 password: "cooPassword456"   // ওনার পাসওয়ার্ড
-            }
+            },
+            
+
+
         ];
 
         // সাইট লোড হওয়ার সাথে সাথে চেক করবে ইউজার লগইন আছে কি না
@@ -893,7 +897,7 @@
 
         async function saveLocalStorage() {
             // ১. লোকাল ব্যাকআপ
-            localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
+            localStorage.setItem('hygiclean_B2C_data', JSON.stringify(appState));
 
             // ২. সুপাবেস ক্লাউড সিঙ্ক (পুরো অ্যাপ স্টেট একসাথে)
             try {
@@ -919,7 +923,7 @@
 
                 if (!error && data && data.state) {
                     appState = data.state;
-                    localStorage.setItem('hygiclean_b2b_data', JSON.stringify(appState));
+                    localStorage.setItem('hygiclean_B2C_data', JSON.stringify(appState));
                     renderAllViews();
                     return;
                 }
@@ -928,7 +932,7 @@
             }
 
             // ক্লাউড ফেল করলে লোকাল থেকে লোড করবে
-            const localData = localStorage.getItem('hygiclean_b2b_data');
+            const localData = localStorage.getItem('hygiclean_B2C_data');
             if (localData) {
                 try {
                     appState = JSON.parse(localData);
